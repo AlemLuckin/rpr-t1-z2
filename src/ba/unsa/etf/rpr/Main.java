@@ -1,27 +1,40 @@
 package ba.unsa.etf.rpr;
 
-import java.util.Scanner;
-
 public class Main {
-
-    public  static int SumaCifara(int n)
-    {
-        int suma = 0;
-        while(n > 0)
-        {
-            suma += n%10;
-            n = n/10;
-        }
-        return  suma;
+    int sati, minute, sekunde;
+    Main(int sati, int minute, int sekunde) { Postavi(sati,minute,sekunde); }
+    void Postavi(int sati, int minute, int sekunde) { this.sati=sati; this.minute=minute; this.sekunde=sekunde; }
+    void Sljedeci() {
+        sekunde++;
+        if (sekunde==60) { sekunde=0; minute++; }
+        if (minute==60) { minute=0; sati++; }
+        if (sati==24) sati=0;}
+    void Prethodni() {
+        sekunde--;
+        if (sekunde==-1) { sekunde=59; minute--; }
+        if (minute==-1) { minute=59; sati--; }
+        if (sati==-1) sati=23;
     }
-    public static void main(String[] args) {
-        Scanner ulaz = new Scanner(System.in);
-        System.out.println("Unesite n: ");
-        int n = ulaz.nextInt();
-        for(int i = 1; i < n; i++)
-        {
-            if(i % SumaCifara(i) == 0)
-                System.out.println(i);
+    void PomjeriZa(int pomak) {
+        if (pomak>0) {
+            for (int i = 0; i < pomak; i++)
+                Sljedeci();
         }
+        else for(int i = 0; i < pomak; i++) Prethodni();
+    }
+    int DajSate() { return sati; }
+    int DajMinute() { return minute; }
+    int DajSekunde() { return sekunde; }
+    void Ispisi() { System.out.println( sati  + " " + minute + " " + sekunde);}
+    public static void main(String[] args) {
+        Main s = new Main(10, 30, 45);
+        s.Ispisi();
+        s.Sljedeci();
+        s.Ispisi();
+        s.PomjeriZa(-48);
+        s.Ispisi();
+        s.Postavi(0,0,0);
+        s.Ispisi();
+
     }
 }
